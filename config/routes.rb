@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :posts
   resources :topics
 
+get 'about' => 'welcome#about'
 
  authenticated :user do
    root to: 'topics#index', as: 'authenticated_root'

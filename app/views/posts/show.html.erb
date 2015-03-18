@@ -19,7 +19,7 @@
     <% if policy(@post).destroy? %>
     <%= link_to "Delete Post", [@topic, @post], method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this post?'} %>
     <% end %>
-
+    
     <div>
   <h2><%= @comments_count %> Comments</h2>
       

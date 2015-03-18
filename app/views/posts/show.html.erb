@@ -11,14 +11,6 @@
     <p><%= markdown @post.body %></p>
     <p><%= image_tag(@post.image.thumb.url) if @post.image? %></p>
    <hr/>
-      <h2><%= @comments_count %> Comments</h2>
-      
-      <%= render @comments %>
-      
-      <hr/>
-      <h4>New Comment</h4>
-      <%= render partial: 'comments/form', locals: { topic: @topic, post: @post, comment: @comment } %>
-    
   </div>
   <div class="col-md-4">
     <% if policy(@post).edit? %>
@@ -29,12 +21,27 @@
     <% end %>
 
     <div>
+  <h2><%= @comments_count %> Comments</h2>
+      
+      <%= render @comments %>
+      
+      <hr/>
+      <h4>New Comment</h4>
+      <%= render partial: 'comments/form', locals: { topic: @topic, post: @post, comment: @comment } %>
+</div>
+
+    <div>
       <h3><%= pluralize(@post.points, 'point') %>
         <small>
           <%= pluralize(@post.up_votes, 'up vote') %>
           <%= pluralize(@post.down_votes, 'down vote') %>
         </small>
     </div>
+      <%= render partial: 'favorites/favorite', locals: { post: @post } %>
   </div>
 </div>
+
+
+
+
 

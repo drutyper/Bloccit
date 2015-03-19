@@ -4,6 +4,7 @@ class PostsController < ApplicationController
     @topic = @post.topic
     @comments = @post.comments
     @comment = Comment.new
+    authorize @topic
   end
 
   def new

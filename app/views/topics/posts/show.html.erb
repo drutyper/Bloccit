@@ -23,7 +23,7 @@
     <div>
   <h2><%= @comments_count %> Comments</h2>
       
-      <%= render @comments %>
+      <%= render partial: 'comments/comment', collection: @comments %>
       
       <hr/>
       <h4>New Comment</h4>

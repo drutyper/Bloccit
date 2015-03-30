@@ -1,19 +1,35 @@
 class CommentsController < ApplicationController
-  def create
-  	@post = Post.find(params[:post_id])
-  	comments = @post.comments
+  def new
+    @post = Post.find(params[:post_id])
+    @comment = Comment.new
+    authorize @comment
+  end
 
-  	@comment = current_user.comments.build(comments_params)
-  	@comment.post = @post
-  	authorize @comment
+   def create
+    @post = Post.find(params[:post_id])
+    @comments = @post.comments
+
+    @comment = current_user.comments.build( comment_params )
+    @comment.post = @post
+    @new_comment = Comment.new
+
+    authorize @comment
 
     if @comment.save
-  		flash[:notice] = "Comment saved."
-  		redirect_to [@post]
-  	else
-  	    flash[:error] = "There was an error saving the comment. Please try again."	
- 	    redirect_to [@post]
+      flash[:notice] = "Comment was created."
+    else
+      flash[:error] = "There was an error saving the comment. Please try again."
     end
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def show
+    @post = Post.find(params[:post_id])
+    @comment = Comment.find(params[:id])
   end
   
   def destroy
@@ -24,16 +40,18 @@ class CommentsController < ApplicationController
     if @comment.destroy
       flash[:notice] = "Comment was removed."
     else
-      flash[:error] = "Comment couldn't be deleted, Try again." 
+      flash[:error] = "Comment couldn't be deleted. Try again."
+    end
+    
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
-
-  respond_to do |format|
-    format.html
-    format.js
-  end
-end
-
-  def comments_params
-  	params.require(:comment).permit(:body)
+  
+  private
+  
+  def comment_params
+    params.require(:comment).permit(:body)
   end
 end
